@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家和万事兴 · 我的</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="me-body">
+  <header class="home-top">
+    <div class="brand">
+      <span class="seal">家</span>
+      <div class="brand-text"><h1>家和万事兴</h1><p>我的账户</p></div>
+    </div>
+    <div class="home-user">
+      <a class="btn ghost" href="/home">返回族谱</a>
+      <button class="btn ghost" id="logoutBtn">退出登录</button>
+    </div>
+  </header>
+
+  <main class="me-main">
+    <section class="me-profile">
+      <div class="me-avatar" id="avatar">家</div>
+      <div class="me-profile-main">
+        <h2 id="profileName">加载中…</h2>
+        <p class="me-profile-sub" id="profileSub">正在读取账号信息</p>
+        <div class="me-badges" id="profileBadges"></div>
+      </div>
+    </section>
+
+    <section class="me-section">
+      <div class="home-head">
+        <div>
+          <h2>账号信息</h2>
+          <p>当前登录账号的基本资料与绑定状态。</p>
+        </div>
+      </div>
+      <div class="me-grid" id="accountGrid"></div>
+    </section>
+
+    <section class="me-section">
+      <div class="home-head">
+        <div>
+          <h2>我加入的谱</h2>
+          <p id="joinedHint">—</p>
+        </div>
+      </div>
+      <div class="me-list" id="joinedList"></div>
+    </section>
+
+    <section class="me-section">
+      <div class="home-head">
+        <div>
+          <h2>我管理的谱</h2>
+          <p>管理员可审批加入申请、管理成员与权限。</p>
+        </div>
+      </div>
+      <div class="me-list" id="managedList"></div>
+    </section>
+
+    <section class="me-section">
+      <div class="home-head">
+        <div>
+          <h2>我绑定的身份</h2>
+          <p>在族谱中绑定的谱成员身份，用于亲戚谱与本人定位。</p>
+        </div>
+      </div>
+      <div class="me-list" id="identityList"></div>
+    </section>
+  </main>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="/static/js/me.js"></script>
+</body>
+</html>

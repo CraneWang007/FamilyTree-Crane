@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="card profile">
+    <view class="avatar-lg">{{initial || '我'}}</view>
+    <view class="profile-main">
+      <view class="serif profile-name">{{user.display_name || user.username || '未登录'}}</view>
+      <view class="tiny muted">账号 {{user.username || '—'}}</view>
+      <view class="tiny" style="margin-top: 8rpx;">
+        <text class="pill {{user.wechat_bound ? 'pill-ok' : 'pill-private'}}">{{user.wechat_bound ? '微信已绑定' : '未绑定微信'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-head">
+    <text class="section-title">我的身份</text>
+    <text class="tiny muted">绑定族谱中的具体成员</text>
+  </view>
+  <view class="form-card">
+    <view class="bind-item" wx:for="{{genealogies}}" wx:key="id" data-id="{{item.id}}" bindtap="openBind">
+      <view class="bind-main">
+        <view class="bind-name">{{item.name}}</view>
+        <view class="tiny muted" wx:if="{{item.member_name}}">已绑定：第{{item.member_generation || 1}}代 · {{item.member_name}}</view>
+        <view class="tiny muted" wx:else>尚未绑定谱中身份</view>
+      </view>
+      <text class="bind-action {{item.member_name ? 'done' : 'link'}}">{{item.member_name ? '已绑定' : '去绑定'}}</text>
+    </view>
+    <view class="empty" wx:if="{{!genealogies.length}}">暂无已加入的族谱</view>
+  </view>
+
+  <view class="section-head"><text class="section-title">账号设置</text></view>
+  <view class="form-card">
+    <view class="field">
+      <text class="field-label">显示名称</text>
+      <text class="field-value">{{user.display_name || '—'}}</text>
+    </view>
+    <view class="field" bindtap="bindWechat">
+      <text class="field-label">微信绑定</text>
+      <text class="field-value {{user.wechat_bound ? '' : 'link'}}">{{user.wechat_bound ? '已绑定' : '点击绑定'}}</text>
+    </view>
+    <view class="field">
+      <text class="field-label">服务地址</text>
+      <text class="field-value tiny muted">{{baseUrl}}</text>
+    </view>
+  </view>
+
+  <button class="btn btn-block" bindtap="goHome">我的族谱</button>
+  <button class="btn btn-block btn-danger" style="margin-top: 20rpx;" bindtap="logout">退出登录</button>
+
+  <view class="mask" wx:if="{{showBind}}" bindtap="closeBind">
+    <view class="dialog" catchtap="stop">
+      <view class="dialog-title">绑定身份</view>
+      <view class="tiny muted" style="margin-bottom: 16rpx;">
+        在「{{bindTarget.name}}」中选择属于您的成员，绑定后仅管理员可更改。
+      </view>
+      <input class="input" placeholder="搜索姓名" value="{{bindKeyword}}" bindinput="onBindSearch" />
+      <scroll-view class="bind-list" scroll-y>
+        <view class="bind-option {{item.active ? 'active' : ''}}" wx:for="{{bindFiltered}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseMember">
+          <text>{{item.label}}</text>
+          <text class="bind-check" wx:if="{{item.active}}">✓</text>
+        </view>
+        <view class="empty" wx:if="{{!bindFiltered.length}}">未找到匹配成员</view>
+      </scroll-view>
+      <view class="dialog-actions">
+        <button class="btn btn-sm" bindtap="closeBind">取消</button>
+        <button class="btn btn-sm btn-primary" loading="{{binding}}" bindtap="confirmBind">确认绑定</button>
+      </view>
+    </view>
+  </view>
+</view>

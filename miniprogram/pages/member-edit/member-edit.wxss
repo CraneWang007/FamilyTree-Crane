@@ -1,0 +1,23 @@
+.photo-thumb {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 12rpx;
+  background: #f1e9d9;
+}
+
+.spouse-picker {
+  max-height: 420rpx;
+  padding: 8rpx 0;
+}
+
+.spouse-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 4rpx;
+  border-bottom: 1rpx solid #f0e8d8;
+}
+
+.spouse-item:last-child { border-bottom: none; }
+
+.page-submit { margin-top: 20rpx; }

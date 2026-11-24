@@ -1,0 +1,447 @@
+/* ---------- 家和万事兴 · 全局样式 ---------- */
+page {
+  background: #f5efe4;
+  color: #2b2925;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.55;
+}
+
+.container {
+  padding: 24rpx 24rpx 40rpx;
+}
+
+/* ---------- 文字 ---------- */
+.serif {
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+
+.muted { color: #857b6b; }
+.small { font-size: 24rpx; }
+.tiny { font-size: 22rpx; }
+.strong { font-weight: 600; }
+.center { text-align: center; }
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 28rpx 4rpx 16rpx;
+}
+
+.section-title {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 34rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 6rpx;
+  height: 26rpx;
+  background: #ae3b2d;
+  border-radius: 3rpx;
+  margin-right: 12rpx;
+  vertical-align: -2rpx;
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  background: #fffdf8;
+  border: 1rpx solid #e8dfcd;
+  border-radius: 20rpx;
+  padding: 26rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 6rpx 18rpx rgba(52, 40, 24, .05);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.card-title {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.card-desc {
+  color: #857b6b;
+  font-size: 25rpx;
+  margin: 10rpx 0 14rpx;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18rpx;
+  font-size: 23rpx;
+  color: #8d8371;
+}
+
+.card-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+/* ---------- 标签 ---------- */
+.pill {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  line-height: 1.6;
+  background: #f1e9d9;
+  color: #7a6f5d;
+  white-space: nowrap;
+}
+
+.pill-admin { background: #f5e4dd; color: #a2361f; }
+.pill-branch { background: #dee9e6; color: #33605f; }
+.pill-normal { background: #f1e9d9; color: #7a6f5d; }
+.pill-public { background: #e2efe2; color: #3d6b45; }
+.pill-private { background: #eee7da; color: #857b6b; }
+.pill-kinship { background: #f6ecd8; color: #8a6417; }
+.pill-default { background: #e8f1e4; color: #3f6b35; }
+.pill-pending { background: #f7ecd6; color: #966b1f; }
+.pill-ok { background: #e2efe2; color: #3d6b45; }
+.pill-err { background: #f5e4dd; color: #a2361f; }
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #dcd0ba;
+  background: #fffdf7;
+  color: #4b463c;
+  font-size: 26rpx;
+  padding: 0 28rpx;
+  height: 68rpx;
+  border-radius: 14rpx;
+  line-height: 1;
+}
+
+.btn::after { border: none; }
+
+.btn-primary {
+  background: linear-gradient(160deg, #b8432f, #963020);
+  border: none;
+  color: #fdf6e9;
+  font-weight: 600;
+}
+
+.btn-danger { color: #ae3b2d; border-color: #e0c3b9; background: #fffdf7; }
+.btn-ghost { background: transparent; border-color: transparent; color: #8d8371; }
+.btn-block { display: flex; width: 100%; }
+.btn-sm { height: 56rpx; font-size: 24rpx; padding: 0 20rpx; border-radius: 12rpx; }
+.btn.is-disabled { opacity: .5; }
+
+/* ---------- 表单 ---------- */
+.form-card {
+  background: #fffdf8;
+  border: 1rpx solid #e8dfcd;
+  border-radius: 20rpx;
+  padding: 8rpx 26rpx;
+  margin-bottom: 20rpx;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  min-height: 92rpx;
+  border-bottom: 1rpx solid #f0e8d8;
+  gap: 20rpx;
+}
+
+.field:last-child { border-bottom: none; }
+
+.field-label {
+  width: 168rpx;
+  flex: 0 0 168rpx;
+  color: #6f6657;
+  font-size: 26rpx;
+}
+
+.field-value {
+  flex: 1;
+  min-width: 0;
+  font-size: 27rpx;
+  color: #2b2925;
+  text-align: right;
+}
+
+.field-value.placeholder { color: #b3a893; }
+.field-input { flex: 1; min-width: 0; font-size: 27rpx; text-align: right; }
+.field picker { flex: 1; min-width: 0; }
+.field-col { display: block; }
+.field-col .field-value, .field-col .field-input { text-align: left; }
+
+.input {
+  height: 84rpx;
+  border: 1rpx solid #dcd0ba;
+  border-radius: 14rpx;
+  padding: 0 24rpx;
+  background: #fffdf7;
+  font-size: 28rpx;
+  margin-bottom: 18rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 160rpx;
+  border: 1rpx solid #dcd0ba;
+  border-radius: 14rpx;
+  padding: 18rpx 24rpx;
+  background: #fffdf7;
+  font-size: 27rpx;
+  box-sizing: border-box;
+}
+
+/* ---------- 树 ---------- */
+.tree-wrap {
+  background: #fbf7ee;
+  border: 1rpx solid #e8dfcd;
+  border-radius: 18rpx;
+  padding: 20rpx;
+}
+
+.tree-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.branch {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 18rpx;
+}
+
+.node-card {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 220rpx;
+  max-width: 320rpx;
+  background: #fffdf8;
+  border: 1rpx solid #e1d6c1;
+  border-radius: 16rpx;
+  padding: 16rpx 18rpx;
+  margin-bottom: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(52, 40, 24, .05);
+}
+
+.node-card.is-focus {
+  border-color: #ae3b2d;
+  box-shadow: 0 0 0 2rpx rgba(174, 59, 45, .2);
+}
+
+.node-name {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 30rpx;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.node-avatar {
+  width: 46rpx;
+  height: 46rpx;
+  flex: 0 0 46rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  background: #dee9e6;
+  color: #33605f;
+}
+
+.node-avatar.female { background: #f5e4dd; color: #94402f; }
+.node-meta { font-size: 21rpx; color: #8d8372; margin-top: 4rpx; white-space: nowrap; }
+
+.spouse-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 8rpx;
+}
+
+.spouse-chip {
+  font-size: 21rpx;
+  color: #857963;
+  background: #f7f0e0;
+  border: 1rpx solid #e2d5bd;
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+}
+
+.children {
+  padding-left: 34rpx;
+  margin-left: 24rpx;
+  border-left: 2rpx solid #ddd0b8;
+}
+
+.children .branch { display: block; margin-right: 0; }
+
+/* ---------- 空态 ---------- */
+.empty {
+  padding: 80rpx 30rpx;
+  text-align: center;
+  color: #a09581;
+  font-size: 26rpx;
+}
+
+/* ---------- 弹层 ---------- */
+.mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(38, 30, 20, .45);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 640rpx;
+  background: #fbf7ee;
+  border-radius: 22rpx;
+  padding: 34rpx;
+  box-shadow: 0 24rpx 60rpx rgba(52, 40, 24, .28);
+}
+
+.dialog-title {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 34rpx;
+  font-weight: 600;
+  margin-bottom: 22rpx;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 26rpx;
+}
+
+.dialog-actions .btn { flex: 1; }
+
+/* ---------- 其它 ---------- */
+.badge-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #ae3b2d;
+  display: inline-block;
+  margin-left: 8rpx;
+}
+
+.hr { height: 1rpx; background: #eee5d3; margin: 18rpx 0; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 12rpx; }
+
+.chip {
+  font-size: 24rpx;
+  border: 1rpx solid #e0d5c0;
+  background: #fbf5e8;
+  color: #6f6657;
+  border-radius: 999rpx;
+  padding: 6rpx 20rpx;
+}
+
+.avatar-lg {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #dee9e6;
+  color: #33605f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 48rpx;
+  overflow: hidden;
+}
+
+.avatar-lg image { width: 100%; height: 100%; }
+
+/* ---------- 登录 / 注册 ---------- */
+.auth {
+  min-height: 100vh;
+  padding: 90rpx 44rpx 60rpx;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fbf7ee 0%, #f5efe4 62%);
+}
+
+.auth-brand { text-align: center; margin-bottom: 52rpx; }
+
+.auth-seal {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 auto 24rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 54rpx;
+  color: #f6ead9;
+  background: linear-gradient(155deg, #bd4632, #8f2c1f);
+  box-shadow: 0 12rpx 26rpx rgba(136, 42, 26, .28);
+}
+
+.auth-title {
+  font-size: 46rpx;
+  font-weight: 600;
+  letter-spacing: 6rpx;
+}
+
+.auth-sub {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #857b6b;
+  letter-spacing: 2rpx;
+}
+
+.auth .btn { margin-top: 24rpx; }
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin: 30rpx 0 6rpx;
+  color: #a09581;
+  font-size: 22rpx;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1rpx;
+  background: #e0d5c0;
+}
+
+.auth-foot {
+  margin-top: 36rpx;
+  text-align: center;
+  font-size: 25rpx;
+  color: #857b6b;
+}
+
+.link { color: #ae3b2d; margin-left: 6rpx; }
+

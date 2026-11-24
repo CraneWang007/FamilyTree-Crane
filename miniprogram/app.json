@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/tree/tree",
+    "pages/member-detail/member-detail",
+    "pages/member-edit/member-edit",
+    "pages/approvals/approvals",
+    "pages/permissions/permissions",
+    "pages/public-detail/public-detail",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f5efe4",
+    "navigationBarTitleText": "家和万事兴",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5efe4"
+  },
+  "tabBar": {
+    "color": "#8d8371",
+    "selectedColor": "#ae3b2d",
+    "backgroundColor": "#fffdf8",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "族谱" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

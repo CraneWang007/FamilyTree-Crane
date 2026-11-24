@@ -1,0 +1,117 @@
+<view class="container tree-page">
+  <view class="tree-head">
+    <view>
+      <view class="serif tree-title">{{genealogy.name || '族谱'}}</view>
+      <view class="tiny muted">成员 {{genealogy.member_count || 0}} 人 · 最高第 {{genealogy.max_generation || 0}} 代</view>
+      <view class="tiny" style="margin-top: 6rpx;" wx:if="{{myMemberName}}">
+        <text class="pill pill-ok">我的身份：{{myMemberName}}</text>
+      </view>
+    </view>
+    <view class="tree-head-right">
+      <text class="pill {{roleClass}}">{{roleLabel}}</text>
+      <text wx:if="{{isDefault}}" class="pill pill-default">默认指引</text>
+      <text wx:elif="{{isKinship}}" class="pill pill-kinship">亲戚谱 · 仅本人与管理员可见</text>
+      <text wx:else class="pill {{genealogy.visibility === 'public' ? 'pill-public' : 'pill-private'}}">{{genealogy.visibility === 'public' ? '公开谱' : '私密谱'}}</text>
+    </view>
+  </view>
+
+  <view class="seg" wx:if="{{!isKinship}}">
+    <view class="seg-item {{mode === 'lineage' ? 'active' : ''}}" data-mode="lineage" bindtap="switchMode">线谱</view>
+    <view class="seg-item {{mode === 'kinship' ? 'active' : ''}}" data-mode="kinship" bindtap="switchMode">亲戚谱</view>
+  </view>
+
+  <view class="seg" wx:if="{{isKinship}}">
+    <view class="seg-item {{branch === 'father' ? 'active' : ''}}" data-branch="father" bindtap="switchBranch">父系亲戚</view>
+    <view class="seg-item {{branch === 'mother' ? 'active' : ''}}" data-branch="mother" bindtap="switchBranch">母系亲戚</view>
+    <view class="seg-item {{branch === 'spouse_father' ? 'active' : ''}}" data-branch="spouse_father" bindtap="switchBranch">配偶父系</view>
+    <view class="seg-item {{branch === 'spouse_mother' ? 'active' : ''}}" data-branch="spouse_mother" bindtap="switchBranch">配偶母系</view>
+  </view>
+
+  <view class="filters" wx:if="{{mode === 'lineage' && !isKinship}}">
+    <picker mode="selector" range="{{rootLabels}}" value="{{rootIndex}}" bindchange="onRootChange">
+      <view class="filter">{{rootLabels[rootIndex]}}</view>
+    </picker>
+    <picker mode="selector" range="{{genLabels}}" value="{{maxGenIndex}}" bindchange="onMaxGenChange">
+      <view class="filter">展 {{genLabels[maxGenIndex]}}</view>
+    </picker>
+    <view class="filter filter-action" wx:if="{{myMemberId}}" bindtap="locateMe">定位到我</view>
+  </view>
+
+  <view class="filters" wx:elif="{{!isKinship}}">
+    <picker mode="selector" range="{{focusLabels}}" value="{{focusIndex}}" bindchange="onFocusChange">
+      <view class="filter">{{focusLabels[focusIndex] || '选择中心成员'}}</view>
+    </picker>
+    <picker mode="selector" range="{{sideLabels}}" value="{{sideIndex}}" bindchange="onSideChange">
+      <view class="filter">{{sideLabels[sideIndex]}}</view>
+    </picker>
+    <view class="filter filter-action" wx:if="{{myMemberId}}" bindtap="locateMe">定位到我</view>
+  </view>
+
+  <view class="tree-hint tiny muted">{{hint}}</view>
+
+  <view class="zoom-bar">
+    <view class="zoom-btn" bindtap="zoomOut">−</view>
+    <view class="zoom-value" bindtap="resetZoom">{{zoomText}}</view>
+    <view class="zoom-btn" bindtap="zoomIn">＋</view>
+  </view>
+
+  <view class="empty" wx:if="{{loading}}">加载中…</view>
+  <view class="empty" wx:elif="{{!rows.length}}">{{isKinship ? '暂无可展示的亲戚谱结构' : '暂无可展示的家谱结构'}}</view>
+
+  <block wx:else>
+    <view class="tree-wrap" wx:if="{{ancestors.length}}">
+      <view class="tiny muted" style="margin-bottom: 12rpx;">上溯长辈</view>
+      <view class="chip-row">
+        <text class="chip" wx:for="{{ancestors}}" wx:key="id">{{item.name}} · 第{{item.generation}}代</text>
+      </view>
+    </view>
+
+    <scroll-view class="tree-scroll" scroll-y scroll-x scroll-into-view="{{scrollToId}}" scroll-with-animation>
+      <view class="tree-space" style="width: {{shelfWidth ? shelfWidth + 'px' : 'auto'}}; height: {{treeHeight ? treeHeight + 'px' : 'auto'}};">
+        <view class="tree-scale" style="transform: scale({{zoom}}); transform-origin: 0 0; width: {{baseWidth ? baseWidth + 'px' : '100%'}}; height: {{baseHeight ? baseHeight + 'px' : 'auto'}};">
+          <view class="tree-list">
+            <view class="tree-item" wx:for="{{rows}}" wx:key="key">
+              <view class="tree-row" id="row-{{item.key}}" data-id="{{item.id}}" data-has-children="{{item.hasChildren}}" bindtap="toggleNode">
+                <view class="tree-indent" style="width: {{item.indent}}rpx;"></view>
+                <view class="node-card {{item.genClass}} {{item.isFocus ? 'is-focus' : ''}} {{item.isMine ? 'is-mine' : ''}} {{item.collapsed ? 'is-collapsed' : ''}}">
+                  <view class="node-top">
+                    <view class="node-name">
+                      <view class="node-avatar {{item.genderClass}}">{{item.initial}}</view>
+                      <text>{{item.name}}</text>
+                      <text class="mine-tag" wx:if="{{item.isMine}}">我</text>
+                    </view>
+                    <view class="node-side">
+                      <text class="collapse-mark" wx:if="{{item.hasChildren}}">{{item.collapsed ? '▸' : '▾'}}</text>
+                      <text class="detail-link" catchtap="onNodeTap" data-id="{{item.id}}">详情</text>
+                    </view>
+                  </view>
+                  <view class="node-meta" wx:if="{{item.metaText}}">{{item.metaText}}</view>
+                  <view class="node-meta collapse-hint" wx:if="{{item.collapsed}}">已收起 {{item.hiddenCount}} 位后代，点击展开</view>
+                </view>
+              </view>
+              <view class="spouse-cards" wx:if="{{item.spouses.length}}" style="padding-left: {{item.indent}}rpx;">
+                <view class="spouse-card" wx:for="{{item.spouses}}" wx:for-item="sp" wx:key="id" data-id="{{sp.id}}" bindtap="onNodeTap">
+                  <view class="node-avatar small {{sp.genderClass}}">{{sp.initial}}</view>
+                  <view class="spouse-info">
+                    <view class="spouse-name">{{sp.name}}</view>
+                    <view class="node-meta">{{sp.metaText}}</view>
+                  </view>
+                  <text class="spouse-badge">配</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </block>
+
+  <view class="action-bar">
+    <button class="btn btn-sm btn-primary" wx:if="{{canAdd}}" bindtap="goAdd">＋ 成员</button>
+    <button class="btn btn-sm" wx:if="{{canApprove || role === 'branch_admin'}}" bindtap="goApprovals">
+      审批<text class="badge-dot" wx:if="{{pendingCount}}"></text>
+    </button>
+    <button class="btn btn-sm" wx:if="{{canManage}}" bindtap="goPermissions">权限</button>
+    <button class="btn btn-sm btn-ghost" bindtap="goHome">返回{{isKinship ? '亲戚谱' : (isVisitor ? '首页' : '族谱')}}</button>
+  </view>
+</view>

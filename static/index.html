@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家和万事兴 · 家谱与亲戚谱</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="seal">家</span>
+    <div class="brand-text">
+      <h1>家和万事兴</h1>
+      <p id="genealogyLabel">家谱 · 亲戚谱</p>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-view="lineage">家谱</button>
+    <button class="tab" data-view="kinship">亲戚谱</button>
+    <button class="tab" data-view="relations">关系表</button>
+    <button class="tab" data-view="members">成员管理</button>
+    <button class="tab" data-view="permissions">权限管理</button>
+    <button class="tab" data-view="proposals">审批<span class="dot hidden" id="proposalDot"></span></button>
+  </nav>
+  <div class="top-actions">
+    <span class="role-pill role-admin hidden" id="rolePill"></span>
+    <button class="btn primary" id="btnAdd">＋ 新增成员</button>
+    <div class="user-menu">
+      <button class="btn ghost" id="userBtn">账户</button>
+      <div class="dropdown hidden" id="userDropdown">
+        <button data-action="profile">我的账户</button>
+        <button data-action="io">导入 / 导出</button>
+        <button data-action="switch">切换族谱</button>
+        <button data-action="logout">退出登录</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="search-box">
+      <input id="searchInput" type="search" placeholder="搜索姓名 / 编码 / 籍贯 / 居住地">
+      <span class="search-count" id="searchCount"></span>
+    </div>
+    <div class="col-head">
+      <span>成员目录</span>
+      <span class="col-note">按代际排序</span>
+    </div>
+    <div class="member-list" id="memberList"></div>
+    <div class="sidebar-foot" id="statsBar"></div>
+  </aside>
+
+  <main class="main">
+    <!-- 家谱 -->
+    <div class="toolbar" id="lineageToolbar">
+      <div class="tb-group">
+        <label>宗谱始祖</label>
+        <select id="lineageRoot"></select>
+      </div>
+      <div class="tb-group">
+        <label>世代上限</label>
+        <select id="lineageMax">
+          <option value="30">30 代（全谱）</option>
+          <option value="15">15 代</option>
+          <option value="10">10 代</option>
+          <option value="5">5 代</option>
+          <option value="3">3 代</option>
+        </select>
+      </div>
+      <button class="btn" id="lineageRefresh">重新生成</button>
+      <span class="tb-hint" id="lineageHint"></span>
+    </div>
+
+    <!-- 亲戚谱分支：父系 / 母系 / 配偶父系 / 配偶母系 -->
+    <div class="toolbar hidden" id="branchToolbar">
+      <div class="seg" id="branchSwitch">
+        <button class="active" data-branch="father">父系亲戚</button>
+        <button data-branch="mother">母系亲戚</button>
+        <button data-branch="spouse_father">配偶父系</button>
+        <button data-branch="spouse_mother">配偶母系</button>
+        <button data-branch="all">四支同屏</button>
+      </div>
+      <span class="tb-hint" id="branchHint">父系 7 级 · 母系 5 级 · 配偶父系/母系 5 级</span>
+    </div>
+
+    <!-- 亲戚谱 -->
+    <div class="toolbar hidden" id="kinshipToolbar">
+      <div class="tb-group">
+        <label>中心成员</label>
+        <select id="kinshipFocus"></select>
+      </div>
+      <button class="btn" id="kinshipRefresh">刷新亲戚谱</button>
+      <span class="tb-hint" id="kinshipHint">父系 7 级 · 母系 5 级 · 配偶父系/母系 5 级 · 四支同屏</span>
+    </div>
+
+    <div class="canvas-wrap" id="canvasWrap">
+      <svg id="treeSvg" class="tree-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="branch-grid hidden" id="branchGrid"></div>
+      <div class="canvas-msg hidden" id="canvasMsg"></div>
+      <div class="zoom-bar">
+        <button data-zoom="in" title="放大">＋</button>
+        <button data-zoom="out" title="缩小">－</button>
+        <button data-zoom="fit" title="适应画布">⤢</button>
+      </div>
+      <div class="legend">
+        <span><i class="line blood"></i>血缘</span>
+        <span><i class="line adopt"></i>收养</span>
+        <span><i class="line inherit"></i>过继</span>
+        <span class="legend-note">滚轮缩放 · 拖拽平移 · 点击节点查看</span>
+      </div>
+    </div>
+
+    <!-- 关系表 -->
+    <div class="relations-panel hidden" id="relationsPanel">
+      <div class="relations-head">
+        <div>
+          <h2>关系表</h2>
+          <p id="relationsNote">人员信息表为家谱与亲戚谱共用；关系表记录每人的关系类型、父节点、母节点与配偶数组。</p>
+        </div>
+        <div class="relations-meta" id="relationsMeta"></div>
+      </div>
+      <div class="table-wrap">
+        <table class="relation-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>唯一编码</th>
+              <th>姓名</th>
+              <th>关系类型</th>
+              <th>父亲</th>
+              <th>母亲</th>
+              <th>配偶</th>
+              <th>代际</th>
+              <th>排行</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="relationBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 成员管理 -->
+    <div class="relations-panel hidden" id="membersPanel">
+      <div class="relations-head">
+        <div>
+          <h2>成员管理</h2>
+          <p>增删改查人员信息；分支管理员新增成员会进入审批队列，由管理员同意后生效。</p>
+        </div>
+        <div class="relations-meta"><button class="btn primary" id="btnAddMember2">＋ 新增成员</button></div>
+      </div>
+      <div class="table-wrap">
+        <table class="relation-table">
+          <thead>
+            <tr>
+              <th>编码</th><th>姓名</th><th>性别</th><th>代际</th><th>排行</th>
+              <th>生卒</th><th>属相</th><th>籍贯</th><th>居住地</th><th>关系</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="membersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 权限管理 -->
+    <div class="relations-panel hidden" id="permissionsPanel">
+      <div class="relations-head">
+        <div>
+          <h2>权限管理</h2>
+          <p>管理员可添加协作者、分配角色、绑定或解绑谱成员，或转让管理员权限。</p>
+        </div>
+        <div class="relations-meta"><button class="btn primary" id="btnAddUser">＋ 添加协作者</button></div>
+      </div>
+      <div class="table-wrap">
+        <table class="relation-table">
+          <thead>
+            <tr><th>用户名</th><th>显示名</th><th>角色</th><th>绑定谱成员</th><th>操作</th></tr>
+          </thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+      <div class="transfer-box">
+        <h3>转让管理员权限</h3>
+        <p>管理员只能有一位。转让后你将降为普通成员，对方成为新管理员。</p>
+        <div class="transfer-row">
+          <select id="transferTarget"></select>
+          <button class="btn danger" id="btnTransfer">确认转让</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 审批 -->
+    <div class="relations-panel hidden" id="proposalsPanel">
+      <div class="relations-head">
+        <div>
+          <h2>协作审批</h2>
+          <p>新增成员与公开谱加入绑定申请会显示在这里，管理员可同意或驳回。</p>
+        </div>
+        <div class="relations-meta" id="proposalMeta"></div>
+      </div>
+      <div class="proposal-list" id="proposalList"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- 成员弹窗 -->
+<div class="modal-mask hidden" id="modalMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="modalTitle">成员详情</h2>
+        <p id="modalSub"></p>
+      </div>
+      <button class="icon-btn" id="modalClose" title="关闭">×</button>
+    </div>
+    <div class="modal-body">
+      <aside class="photo-col">
+        <div class="photo-frame" id="photoFrame"></div>
+        <label class="upload-btn hidden" id="uploadLabel">
+          上传照片
+          <input type="file" id="photoInput" accept="image/*" hidden>
+        </label>
+        <p class="photo-tip">支持 JPG / PNG / WEBP / GIF，≤ 16MB</p>
+      </aside>
+      <section class="content-col">
+        <div id="detailView"></div>
+        <form id="memberForm" class="member-form hidden" novalidate></form>
+      </section>
+    </div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<!-- 添加协作者弹窗 -->
+<div class="modal-mask hidden" id="userModalMask">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <h2>添加协作者</h2>
+      <button class="icon-btn" id="userModalClose">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>用户名 <b>*</b></label>
+        <input id="f_username" type="text" placeholder="对方已注册的用户名">
+      </div>
+      <div class="field">
+        <label>角色</label>
+        <select id="f_role">
+          <option value="normal">普通成员（只读）</option>
+          <option value="branch_admin">分支管理员（可增员，需审批）</option>
+        </select>
+      </div>
+      <p class="form-note">管理员角色只能通过「转让管理员权限」产生。</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn primary" id="confirmAddUser">添加</button>
+      <button class="btn ghost" id="cancelAddUser">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 导入导出弹窗 -->
+<div class="modal-mask hidden" id="ioModalMask">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <h2>导入 / 导出</h2>
+      <button class="icon-btn" id="ioModalClose">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="io-section">
+        <h3>导出当前族谱</h3>
+        <p class="form-note">可导出为 JSON、Excel（.xlsx）或 CSV，便于备份或迁移到微信小程序。</p>
+        <div class="io-row">
+          <button class="btn" data-export="json">导出 JSON</button>
+          <button class="btn" data-export="xlsx">导出 Excel</button>
+          <button class="btn" data-export="csv">导出 CSV</button>
+        </div>
+      </div>
+      <div class="io-section">
+        <h3>导入成员</h3>
+        <p class="form-note">仅管理员可导入。支持 xlsx / csv / json，表头需为中文（姓名、性别、出生年…）。</p>
+        <label class="upload-btn">
+          选择文件
+          <input type="file" id="importFile" accept=".xlsx,.xls,.csv,.json" hidden>
+        </label>
+        <p class="import-status" id="importStatus"></p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" id="closeIo">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script src="/static/js/tree.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

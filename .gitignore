@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+data/
+static/uploads/
+.trae/
+.screenshots/
+.trae-html-share-packages/
+project.private.config.json

@@ -1,0 +1,55 @@
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 26rpx;
+}
+
+.profile-main { flex: 1; min-width: 0; }
+
+.profile-name {
+  font-size: 38rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  margin-bottom: 6rpx;
+}
+
+.bind-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #efe6d6;
+}
+
+.bind-item:last-child { border-bottom: none; }
+
+.bind-main { flex: 1; min-width: 0; }
+
+.bind-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  margin-bottom: 4rpx;
+}
+
+.bind-action { font-size: 26rpx; flex: 0 0 auto; }
+.bind-action.done { color: #8d8372; }
+
+.bind-list {
+  max-height: 46vh;
+  border: 1rpx solid #e8dfcd;
+  border-radius: 14rpx;
+  background: #fffdf7;
+}
+
+.bind-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22rpx 24rpx;
+  font-size: 27rpx;
+  border-bottom: 1rpx solid #f2ebdd;
+}
+
+.bind-option:last-child { border-bottom: none; }
+.bind-option.active { background: #fdf3e2; color: #ae3b2d; font-weight: 600; }
+.bind-check { color: #ae3b2d; }

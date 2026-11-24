@@ -1,0 +1,28 @@
+<view class="auth">
+  <view class="auth-brand">
+    <view class="auth-seal serif">家</view>
+    <view class="auth-title serif">创建账号</view>
+    <view class="auth-sub">注册后即可创建或加入族谱</view>
+  </view>
+
+  <view class="form-card">
+    <view class="field">
+      <text class="field-label">用户名</text>
+      <input class="field-input" placeholder="2—32 个字符" value="{{username}}" data-field="username" bindinput="onInput" />
+    </view>
+    <view class="field">
+      <text class="field-label">显示名称</text>
+      <input class="field-input" placeholder="留空则同用户名" value="{{display_name}}" data-field="display_name" bindinput="onInput" />
+    </view>
+    <view class="field">
+      <text class="field-label">密码</text>
+      <input class="field-input" password placeholder="至少 6 位" value="{{password}}" data-field="password" bindinput="onInput" />
+    </view>
+    <view class="field">
+      <text class="field-label">确认密码</text>
+      <input class="field-input" password placeholder="再输入一次" value="{{password2}}" data-field="password2" bindinput="onInput" />
+    </view>
+  </view>
+
+  <button class="btn btn-primary btn-block" loading="{{loading}}" bindtap="submit">注册并登录</button>
+</view>

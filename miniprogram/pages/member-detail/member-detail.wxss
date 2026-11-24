@@ -1,0 +1,22 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 26rpx;
+}
+
+.profile-main { flex: 1; min-width: 0; }
+
+.profile-name {
+  font-size: 40rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  margin-bottom: 6rpx;
+}
+
+.action-bar {
+  display: flex;
+  gap: 14rpx;
+  justify-content: center;
+  margin-top: 26rpx;
+  flex-wrap: wrap;
+}

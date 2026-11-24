@@ -1,0 +1,13 @@
+.home-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 4rpx 20rpx;
+}
+
+.home-title {
+  font-size: 48rpx;
+  font-weight: 600;
+  letter-spacing: 8rpx;
+  line-height: 1.2;
+}

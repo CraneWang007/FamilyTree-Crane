@@ -1,0 +1,71 @@
+<template name="node">
+  <view class="branch">
+    <view class="node-card">
+      <view class="node-name">
+        <view class="node-avatar {{genderClass}}">{{initial}}</view>
+        <text>{{name}}</text>
+      </view>
+      <view class="node-meta" wx:if="{{metaText}}">{{metaText}}</view>
+      <view class="spouse-line" wx:if="{{spouses.length}}">
+        <text class="spouse-chip" wx:for="{{spouses}}" wx:key="id">{{item.name}}</text>
+      </view>
+    </view>
+    <view class="children" wx:if="{{children.length}}">
+      <block wx:for="{{children}}" wx:key="id">
+        <template is="node" data="{{...item}}" />
+      </block>
+    </view>
+  </view>
+</template>
+
+<view class="container">
+  <view class="pub-head">
+    <view class="serif pub-title">{{genealogy.name || '公开族谱'}}</view>
+    <view class="tiny muted">{{genealogy.description || '暂无简介'}}</view>
+    <view class="card-meta" style="margin-top: 12rpx;">
+      <text class="pill pill-public">公开谱</text>
+      <text>成员 {{genealogy.member_count || 0}} 人</text>
+      <text>{{genealogy.generation_count || 0}} 代</text>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{loading}}">加载中…</view>
+  <view class="empty" wx:elif="{{!tree}}">{{hint || '暂无可展示的家谱结构'}}</view>
+
+  <block wx:else>
+    <view class="tree-hint tiny muted">{{hint}}</view>
+    <scroll-view class="tree-scroll" scroll-x enable-flex>
+      <view class="tree-inner">
+        <template is="node" data="{{...tree}}" />
+      </view>
+    </scroll-view>
+  </block>
+
+  <view class="join-panel" wx:if="{{!isMember}}">
+    <view class="section-head"><text class="section-title">申请加入</text></view>
+    <view class="tiny muted" style="margin-bottom: 14rpx;">
+      选择你在本谱中对应的成员，管理员审批通过后即可进入族谱。绑定后仅管理员可以更改。
+    </view>
+
+    <block wx:if="{{pendingJoin}}">
+      <view class="pending-box">已提交加入申请，等待管理员审批。</view>
+    </block>
+    <block wx:else>
+      <picker mode="selector" range="{{memberOptions}}" range-key="name" value="{{memberIndex}}" bindchange="onMemberChange">
+        <view class="picker-box">
+          <text class="tiny muted">绑定成员</text>
+          <text class="picker-value">
+            第{{memberOptions[memberIndex].generation}}代 · {{memberOptions[memberIndex].name}} ▾
+          </text>
+        </view>
+      </picker>
+      <button class="btn btn-primary btn-block {{memberOptions.length ? '' : 'is-disabled'}}" loading="{{submitting}}" disabled="{{!memberOptions.length}}" bindtap="submitJoin">
+        提交加入申请
+      </button>
+    </block>
+  </view>
+
+  <view class="join-panel" wx:else>
+    <button class="btn btn-primary btn-block" bindtap="enterGenealogy">进入族谱</button>
+  </view>
+</view>

@@ -1,0 +1,28 @@
+<view class="auth">
+  <view class="auth-brand">
+    <view class="auth-seal serif">家</view>
+    <view class="auth-title serif">家和万事兴</view>
+    <view class="auth-sub">家谱 · 亲戚谱 · 多谱协作</view>
+  </view>
+
+  <view class="form-card">
+    <view class="field">
+      <text class="field-label">用户名</text>
+      <input class="field-input" placeholder="请输入用户名" value="{{username}}" data-field="username" bindinput="onInput" />
+    </view>
+    <view class="field">
+      <text class="field-label">密码</text>
+      <input class="field-input" password placeholder="请输入密码" value="{{password}}" data-field="password" bindinput="onInput" />
+    </view>
+  </view>
+
+  <button class="btn btn-primary btn-block" loading="{{loading}}" bindtap="submit">登录</button>
+
+  <view class="auth-divider"><text>或</text></view>
+
+  <button class="btn btn-block" loading="{{loading}}" bindtap="wechatLogin">微信一键登录</button>
+
+  <view class="auth-foot">
+    还没有账号？<text class="link" bindtap="goRegister">立即注册</text>
+  </view>
+</view>

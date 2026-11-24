@@ -1,0 +1,231 @@
+.tree-page { padding-bottom: 40rpx; }
+
+.tree-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 8rpx 4rpx 20rpx;
+}
+
+.tree-title {
+  font-size: 38rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.tree-head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8rpx;
+}
+
+.seg {
+  display: flex;
+  background: #fffdf7;
+  border: 1rpx solid #dcd0ba;
+  border-radius: 14rpx;
+  overflow: hidden;
+  margin-bottom: 16rpx;
+}
+
+.seg-item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 27rpx;
+  color: #8b8272;
+}
+
+.seg-item.active {
+  background: #2f2c27;
+  color: #f2e9d7;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  gap: 14rpx;
+  margin-bottom: 12rpx;
+}
+
+.filter {
+  background: #fffdf7;
+  border: 1rpx solid #dcd0ba;
+  border-radius: 12rpx;
+  padding: 12rpx 22rpx;
+  font-size: 24rpx;
+  color: #4b463c;
+  max-width: 420rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tree-hint { padding: 4rpx 4rpx 10rpx; }
+
+.filter-action { color: #ae3b2d; border-color: #e0c3b9; }
+
+.zoom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10rpx;
+  padding: 0 4rpx 12rpx;
+}
+
+.zoom-btn {
+  width: 58rpx;
+  height: 52rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffdf7;
+  border: 1rpx solid #dcd0ba;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  color: #4b463c;
+}
+
+.zoom-value {
+  min-width: 100rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #8d8372;
+}
+
+.tree-scroll {
+  height: 62vh;
+  white-space: normal;
+}
+
+.tree-scale { box-sizing: border-box; }
+
+.tree-list { padding: 6rpx 8rpx 20rpx; }
+
+.tree-item { margin-bottom: 14rpx; }
+
+.tree-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.tree-indent { flex: 0 0 auto; }
+
+.tree-row .node-card {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.tree-row .node-name,
+.tree-row .node-meta { white-space: normal; }
+
+.node-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+
+.tree-row .node-top .node-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.node-side {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 0 0 auto;
+}
+
+.collapse-mark {
+  font-size: 22rpx;
+  color: #a39680;
+}
+
+.detail-link {
+  font-size: 22rpx;
+  color: #ae3b2d;
+  border: 1rpx solid #e0c3b9;
+  border-radius: 8rpx;
+  padding: 2rpx 12rpx;
+}
+
+.collapse-hint { color: #a8792f; }
+
+.node-card.is-collapsed { border-style: dashed; }
+
+/* 不同代际使用不同底色，呼应网页端的分代视觉 */
+.node-card.gen1 { background: #f6ead6; border-color: #e4d4b8; }
+.node-card.gen2 { background: #e9f0e8; border-color: #d3e0d1; }
+.node-card.gen3 { background: #f7e8e2; border-color: #ead4cb; }
+.node-card.gen4 { background: #e8eef6; border-color: #d3dfea; }
+.node-card.gen5 { background: #f4eeda; border-color: #e6dcc2; }
+.node-card.gen6 { background: #eee9f5; border-color: #dcd4e8; }
+.node-card.gen7 { background: #e7f1ef; border-color: #d2e3df; }
+
+.node-card.is-mine {
+  border-color: #c9a227;
+  background: #fff9e8;
+}
+
+.mine-tag {
+  font-size: 20rpx;
+  color: #8a6b12;
+  background: #f7e6b5;
+  border-radius: 8rpx;
+  padding: 0 10rpx;
+  margin-left: 8rpx;
+}
+
+/* 配偶卡：参照网页端，成员卡下方独立展示，含姓名、代际与生卒年 */
+.spouse-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  margin: 8rpx 0 0;
+}
+
+.spouse-card {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  background: #faf5e9;
+  border: 1rpx solid #e5d9c3;
+  border-radius: 12rpx;
+  padding: 10rpx 18rpx;
+  margin-right: 8rpx;
+}
+
+.spouse-info { flex: 1; min-width: 0; }
+
+.spouse-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #3a362e;
+}
+
+.spouse-badge {
+  font-size: 22rpx;
+  color: #a39680;
+  letter-spacing: 2rpx;
+}
+
+.node-avatar.small {
+  width: 44rpx;
+  height: 44rpx;
+  flex: 0 0 44rpx;
+  font-size: 22rpx;
+}
+
+.action-bar {
+  display: flex;
+  gap: 14rpx;
+  justify-content: center;
+  margin-top: 26rpx;
+  flex-wrap: wrap;
+}

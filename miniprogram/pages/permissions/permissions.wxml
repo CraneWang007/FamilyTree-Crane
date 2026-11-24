@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="perm-head">
+    <view>
+      <view class="serif perm-title">{{genealogy.name || '族谱'}} · 权限</view>
+      <view class="tiny muted">共 {{users.length}} 位协作者</view>
+    </view>
+    <button class="btn btn-sm" wx:if="{{isAdmin && !isKinship}}" bindtap="openAdd">＋ 添加</button>
+  </view>
+
+  <view class="empty" wx:if="{{loading}}">加载中…</view>
+
+  <view class="card" wx:for="{{users}}" wx:key="user_id">
+    <view class="user-head">
+      <view class="user-main">
+        <view class="user-name">{{item.display_name || item.username}}</view>
+        <view class="tiny muted">{{item.username}}</view>
+      </view>
+      <picker wx:if="{{isAdmin && !isKinship && item.role !== 'admin'}}" mode="selector" range="{{editRoleLabels}}" value="{{item.roleIndex}}" data-uid="{{item.user_id}}" bindchange="onRoleChange">
+        <text class="pill {{item.roleClass}}">{{item.roleLabel}} ▾</text>
+      </picker>
+      <text wx:else class="pill {{item.roleClass}}">{{item.roleLabel}}</text>
+    </view>
+
+    <view class="bind-row">
+      <text class="tiny muted">绑定谱成员</text>
+      <picker wx:if="{{isAdmin && !isKinship}}" mode="selector" range="{{memberOptions}}" range-key="label" value="{{item.memberIndex}}" data-uid="{{item.user_id}}" bindchange="onMemberChange">
+        <text class="bind-value">{{item.memberLabel}} ▾</text>
+      </picker>
+      <text wx:else class="tiny">{{item.memberLabel}}</text>
+    </view>
+
+    <view class="card-actions" wx:if="{{isAdmin && !isKinship && item.role !== 'admin'}}">
+      <button class="btn btn-sm btn-danger" data-uid="{{item.user_id}}" data-name="{{item.display_name || item.username}}" bindtap="removeUser">移除</button>
+    </view>
+    <view class="tiny muted" wx:if="{{item.role === 'admin'}}" style="margin-top: 12rpx;">{{isKinship ? '管理员：由源家谱管理员自动同步' : '管理员：可审批、改绑与转让'}}</view>
+  </view>
+
+  <view class="section-head" wx:if="{{isAdmin && !isKinship}}"><text class="section-title">管理员转让</text></view>
+  <button class="btn btn-block" wx:if="{{isAdmin && !isKinship}}" bindtap="openTransfer">转让管理员权限</button>
+</view>
+
+<view class="mask" wx:if="{{showAdd}}" bindtap="closeAdd">
+  <view class="dialog" catchtap="stop">
+    <view class="dialog-title serif">添加协作者</view>
+    <input class="input" placeholder="对方的登录用户名" value="{{addUsername}}" bindinput="onAddUsername" />
+    <picker mode="selector" range="{{editRoleLabels}}" value="{{addRoleIndex}}" bindchange="onAddRoleChange">
+      <view class="input" style="display: flex; align-items: center;">
+        {{editRoleLabels[addRoleIndex]}}
+      </view>
+    </picker>
+    <view class="dialog-actions">
+      <button class="btn" bindtap="closeAdd">取消</button>
+      <button class="btn btn-primary" loading="{{submitting}}" bindtap="addUser">添加</button>
+    </view>
+  </view>
+</view>
+
+<view class="mask" wx:if="{{showTransfer}}" bindtap="closeTransfer">
+  <view class="dialog" catchtap="stop">
+    <view class="dialog-title serif">转让管理员</view>
+    <picker mode="selector" range="{{transferOptions}}" range-key="username" value="{{transferIndex}}" bindchange="onTransferChange">
+      <view class="input" style="display: flex; align-items: center;">
+        {{transferOptions[transferIndex].display_name || transferOptions[transferIndex].username}}
+      </view>
+    </picker>
+    <view class="tiny muted">转让后你将变为普通成员，此操作不可撤销。</view>
+    <view class="dialog-actions">
+      <button class="btn" bindtap="closeTransfer">取消</button>
+      <button class="btn btn-primary" bindtap="confirmTransfer">确认转让</button>
+    </view>
+  </view>
+</view>

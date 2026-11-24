@@ -1,0 +1,37 @@
+.perm-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8rpx 4rpx 20rpx;
+}
+
+.perm-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.user-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.user-main { min-width: 0; }
+
+.user-name {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.bind-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0e8d8;
+}
+
+.bind-value { font-size: 25rpx; color: #4b463c; }

@@ -1,0 +1,7 @@
+{
+  "envId": "cloud1-0gtk87r0d64f32f1",
+  "$schema": "https://static.cloudbase.net/cli/cloudbaserc.schema.json",
+  "cloudrun": {
+    "name": "family-tree"
+  }
+}

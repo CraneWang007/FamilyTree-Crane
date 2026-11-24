@@ -1,0 +1,88 @@
+<view class="container" wx:if="{{member}}">
+  <view class="card profile-card">
+    <view class="avatar-lg {{member.genderClass}}" bindtap="previewPhoto">
+      <image wx:if="{{photoUrl}}" src="{{photoUrl}}" mode="aspectFill" />
+      <text wx:else>{{member.initial}}</text>
+    </view>
+    <view class="profile-main">
+      <view class="profile-name serif">{{member.name}}</view>
+      <view class="small muted">{{member.metaText}}</view>
+      <view class="tiny muted" wx:if="{{member.lifeText}}">{{member.lifeText}}</view>
+      <view class="tiny muted">编号 {{member.code}}</view>
+    </view>
+  </view>
+
+  <view class="section-head"><text class="section-title">基本信息</text></view>
+  <view class="form-card">
+    <view class="field">
+      <text class="field-label">代际</text>
+      <text class="field-value">第 {{member.generation}} 代</text>
+    </view>
+    <view class="field" wx:if="{{member.birthdayText}}">
+      <text class="field-label">生日</text>
+      <text class="field-value">{{member.birthdayText}}</text>
+    </view>
+    <view class="field" wx:if="{{member.zodiac}}">
+      <text class="field-label">属相</text>
+      <text class="field-value">{{member.zodiac}}</text>
+    </view>
+    <view class="field" wx:if="{{member.hometown}}">
+      <text class="field-label">籍贯</text>
+      <text class="field-value">{{member.hometown}}</text>
+    </view>
+    <view class="field" wx:if="{{member.residence}}">
+      <text class="field-label">居住地</text>
+      <text class="field-value">{{member.residence}}</text>
+    </view>
+    <view class="field" wx:if="{{member.contact}}">
+      <text class="field-label">联系方式</text>
+      <text class="field-value">{{member.contact}}</text>
+    </view>
+    <view class="field" wx:if="{{member.relation_type}}">
+      <text class="field-label">关系</text>
+      <text class="field-value">{{member.relation_type}}</text>
+    </view>
+  </view>
+
+  <view class="section-head"><text class="section-title">亲属关系</text></view>
+  <view class="form-card">
+    <view class="field" wx:if="{{member.father}}">
+      <text class="field-label">父亲</text>
+      <view class="field-value">
+        <text class="chip" bindtap="goMember" data-id="{{member.father.id}}">{{member.father.name}}</text>
+      </view>
+    </view>
+    <view class="field" wx:if="{{member.mother}}">
+      <text class="field-label">母亲</text>
+      <view class="field-value">
+        <text class="chip" bindtap="goMember" data-id="{{member.mother.id}}">{{member.mother.name}}</text>
+      </view>
+    </view>
+    <view class="field field-col" wx:if="{{member.spouses.length}}">
+      <text class="field-label">配偶</text>
+      <view class="field-value chip-row">
+        <text class="chip" wx:for="{{member.spouses}}" wx:key="id" bindtap="goMember" data-id="{{item.id}}">{{item.name}}</text>
+      </view>
+    </view>
+    <view class="field field-col" wx:if="{{member.children.length}}">
+      <text class="field-label">子女</text>
+      <view class="field-value chip-row">
+        <text class="chip" wx:for="{{member.children}}" wx:key="id" bindtap="goMember" data-id="{{item.id}}">{{item.name}}</text>
+      </view>
+    </view>
+    <view class="field" wx:if="{{!member.father && !member.mother && !member.spouses.length && !member.children.length}}">
+      <text class="field-label">关系</text>
+      <text class="field-value muted">暂无关联成员</text>
+    </view>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn btn-sm btn-primary" wx:if="{{canAdd}}" bindtap="goAddChild">＋ 添加子女</button>
+    <button class="btn btn-sm" wx:if="{{canAdd}}" bindtap="goAddSpouse">＋ 添加配偶</button>
+    <button class="btn btn-sm" wx:if="{{canEdit}}" bindtap="goEdit">编辑</button>
+    <button class="btn btn-sm btn-danger" wx:if="{{isAdmin}}" bindtap="removeMember">删除</button>
+  </view>
+</view>
+
+<view class="empty" wx:elif="{{loading}}">加载中…</view>
+<view class="empty" wx:else>成员不存在或无权查看</view>

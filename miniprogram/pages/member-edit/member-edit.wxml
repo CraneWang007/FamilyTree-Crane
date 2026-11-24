@@ -1,0 +1,114 @@
+<view class="container">
+  <view class="form-card">
+    <view class="field">
+      <text class="field-label">姓名 *</text>
+      <input class="field-input" placeholder="必填" value="{{form.name}}" data-field="name" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="field-label">性别</text>
+      <picker mode="selector" range="{{genders}}" value="{{genderIndex}}" bindchange="onGenderChange">
+        <view class="field-value">{{genders[genderIndex]}}</view>
+      </picker>
+    </view>
+    <view class="field" wx:if="{{!personalOnly}}">
+      <text class="field-label">代际</text>
+      <input class="field-input" type="number" placeholder="留空则按父母或配偶推算" value="{{form.generation}}" data-field="generation" bindinput="onField" />
+    </view>
+    <view class="field" wx:if="{{!personalOnly}}">
+      <text class="field-label">排行</text>
+      <input class="field-input" type="number" placeholder="同辈排行，可留空" value="{{form.sibling_rank}}" data-field="sibling_rank" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="field-label">出生年</text>
+      <input class="field-input" type="number" placeholder="如 1950" value="{{form.birth_year}}" data-field="birth_year" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="field-label">去世年</text>
+      <input class="field-input" type="number" placeholder="在世可留空" value="{{form.death_year}}" data-field="death_year" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="field-label">生日</text>
+      <picker mode="date" value="{{form.birthday}}" start="1900-01-01" end="2100-12-31" bindchange="onBirthdayChange">
+        <view class="field-value {{form.birthday ? '' : 'placeholder'}}">{{form.birthday || '选择日期'}}</view>
+      </picker>
+      <text class="tiny link" wx:if="{{form.birthday}}" bindtap="clearBirthday">清除</text>
+    </view>
+    <view class="field" wx:if="{{form.birthday}}">
+      <text class="field-label">历法</text>
+      <picker mode="selector" range="{{birthdayLabels}}" value="{{birthdayTypeIndex}}" bindchange="onBirthdayTypeChange">
+        <view class="field-value">{{birthdayLabels[birthdayTypeIndex]}}</view>
+      </picker>
+    </view>
+    <view class="field">
+      <text class="field-label">籍贯</text>
+      <input class="field-input" placeholder="可留空" value="{{form.hometown}}" data-field="hometown" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="field-label">居住地</text>
+      <input class="field-input" placeholder="可留空" value="{{form.residence}}" data-field="residence" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="field-label">联系方式</text>
+      <input class="field-input" placeholder="可留空" value="{{form.contact}}" data-field="contact" bindinput="onField" />
+    </view>
+    <view class="field" wx:if="{{!personalOnly}}">
+      <text class="field-label">唯一编码</text>
+      <input class="field-input" placeholder="留空自动生成" value="{{form.code}}" data-field="code" bindinput="onField" />
+    </view>
+    <view class="field" wx:if="{{!personalOnly}}">
+      <text class="field-label">关系类型</text>
+      <picker mode="selector" range="{{relTypes}}" value="{{relIndex}}" bindchange="onRelChange">
+        <view class="field-value">{{relTypes[relIndex]}}</view>
+      </picker>
+    </view>
+    <view class="field" bindtap="choosePhoto">
+      <text class="field-label">照片</text>
+      <view class="field-value">
+        <image wx:if="{{photoPath || photoUrl}}" class="photo-thumb" src="{{photoPath || photoUrl}}" mode="aspectFill" />
+        <text wx:else class="placeholder">点击选择照片</text>
+      </view>
+    </view>
+  </view>
+
+  <block wx:if="{{!personalOnly}}">
+    <view class="section-head"><text class="section-title">父母</text></view>
+    <view class="form-card">
+      <view class="field">
+        <text class="field-label">父亲</text>
+        <picker mode="selector" range="{{parentOptions}}" range-key="label" value="{{fatherIndex}}" bindchange="onFatherChange">
+          <view class="field-value">{{parentOptions[fatherIndex].label}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="field-label">母亲</text>
+        <picker mode="selector" range="{{parentOptions}}" range-key="label" value="{{motherIndex}}" bindchange="onMotherChange">
+          <view class="field-value">{{parentOptions[motherIndex].label}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="section-head"><text class="section-title">配偶</text><text class="tiny muted">可多选</text></view>
+    <view class="form-card">
+      <scroll-view scroll-y class="spouse-picker" wx:if="{{spouseOptions.length}}">
+        <checkbox-group bindchange="onSpouseChange">
+          <label class="spouse-item" wx:for="{{spouseOptions}}" wx:key="id">
+            <checkbox value="{{item.id}}" checked="{{item.checked}}" color="#ae3b2d" />
+            <text class="small">{{item.label}}</text>
+          </label>
+        </checkbox-group>
+      </scroll-view>
+      <view class="empty" wx:else>暂无可选成员</view>
+    </view>
+  </block>
+
+  <view class="form-card" wx:if="{{personalOnly}}">
+    <text class="tiny muted">普通成员仅可修改本人绑定的身份资料，父母、配偶、代际等关系字段不可修改。</text>
+  </view>
+
+  <button class="btn btn-primary btn-block" loading="{{submitting}}" bindtap="submit">
+    {{mode === 'edit' ? '保存修改' : '提交新增'}}
+  </button>
+  <view class="tiny muted center" style="margin-top: 16rpx;" wx:if="{{!isAdmin && mode === 'add'}}">
+    新增成员需管理员审批
+  </view>
+</view>

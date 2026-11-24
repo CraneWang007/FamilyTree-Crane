@@ -1,0 +1,22 @@
+.seg {
+  display: flex;
+  background: #fffdf7;
+  border: 1rpx solid #dcd0ba;
+  border-radius: 14rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.seg-item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 27rpx;
+  color: #8b8272;
+}
+
+.seg-item.active {
+  background: #2f2c27;
+  color: #f2e9d7;
+  font-weight: 600;
+}

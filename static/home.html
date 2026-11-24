@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家和万事兴 · 我的族谱</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-body">
+  <header class="home-top">
+    <div class="brand">
+      <span class="seal">家</span>
+      <div class="brand-text"><h1>家和万事兴</h1><p>家谱 · 亲戚谱</p></div>
+    </div>
+    <div class="home-user">
+      <span id="userBadge"></span>
+      <a class="btn ghost" href="/me">我的</a>
+      <button class="btn ghost" id="wechatBindBtn">绑定微信</button>
+      <button class="btn ghost" id="logoutBtn">退出登录</button>
+    </div>
+  </header>
+
+  <main class="home-main">
+    <div class="home-head">
+      <div>
+        <h2>我的族谱</h2>
+        <p>选择一份族谱进入，或从零创建一份新家谱。创建人自动拥有管理员权限。</p>
+      </div>
+      <button class="btn primary" id="newGenealogyBtn">＋ 新建族谱</button>
+    </div>
+
+    <div class="genealogy-grid" id="genealogyGrid"></div>
+    <div class="empty-block hidden" id="emptyBlock">
+      <p>你还没有参与任何族谱。</p>
+      <button class="btn primary" id="emptyCreateBtn">创建第一份族谱</button>
+    </div>
+
+    <div class="home-head" id="publicHead">
+      <div>
+        <h2>公开族谱</h2>
+        <p>可查看公开族谱的树状结构；选择谱成员并提交申请，管理员审批后即可加入。</p>
+      </div>
+    </div>
+    <div class="genealogy-grid" id="publicGrid"></div>
+    <div class="empty-block hidden" id="publicEmpty"><p>暂无公开族谱。</p></div>
+  </main>
+
+  <div class="modal-mask hidden" id="publicModalMask">
+    <div class="modal modal-lg">
+      <div class="modal-head">
+        <h2 id="publicModalTitle">公开族谱</h2>
+        <button class="icon-btn" id="publicModalClose">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="public-tree-wrap"><svg id="publicTreeSvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+        <div class="join-panel" id="joinPanel">
+          <div class="field">
+            <label>选择要绑定身份的谱成员</label>
+            <select id="joinMemberSelect"></select>
+          </div>
+          <p class="hint">提交后由管理员审批；审批通过后你将成为该谱成员，且绑定仅管理员可更改。</p>
+          <p class="auth-tip" id="joinStatus"></p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn primary" id="joinSubmit">申请加入</button>
+        <button class="btn ghost" id="publicCancel">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-mask hidden" id="modalMask">
+    <div class="modal modal-sm">
+      <div class="modal-head">
+        <h2 id="modalTitle">新建族谱</h2>
+        <button class="icon-btn" id="modalClose">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="field">
+          <label>族谱名称 <b>*</b></label>
+          <input id="f_name" type="text" placeholder="如：陈氏家谱" maxlength="60">
+        </div>
+        <div class="field">
+          <label>简介</label>
+          <textarea id="f_description" rows="3" placeholder="可填写祖籍、堂号、迁徙脉络等（选填）"></textarea>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn primary" id="confirmCreate">创建</button>
+        <button class="btn ghost" id="cancelCreate">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+<script src="/static/js/tree.js"></script>
+<script src="/static/js/home.js"></script>
+</body>
+</html>

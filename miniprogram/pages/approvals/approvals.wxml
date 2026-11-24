@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="seg">
+    <view class="seg-item {{filter === 'pending' ? 'active' : ''}}" data-filter="pending" bindtap="switchFilter">
+      待审批{{pendingCount ? '（' + pendingCount + '）' : ''}}
+    </view>
+    <view class="seg-item {{filter === 'all' ? 'active' : ''}}" data-filter="all" bindtap="switchFilter">全部记录</view>
+  </view>
+
+  <view class="empty" wx:if="{{loading}}">加载中…</view>
+  <view class="empty" wx:elif="{{!(filter === 'pending' ? pendingCount : list.length)}}">暂无审批记录</view>
+
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card" wx:if="{{filter === 'all' || item.status === 'pending'}}">
+      <view class="card-head">
+        <text class="card-title">{{item.isJoin ? '加入并绑定：' + item.targetName : item.actionLabel + '：' + (item.payload.name || '未命名')}}</text>
+        <text class="pill {{item.statusClass}}">{{item.statusLabel}}</text>
+      </view>
+      <view class="card-desc">申请人 {{item.proposerText}} · {{item.createdText}}</view>
+
+      <view class="card-meta" wx:if="{{item.isJoin}}">
+        <text>目标成员 {{item.targetName}}</text>
+        <text>通过后成为普通成员</text>
+        <text>绑定后仅管理员可更改</text>
+      </view>
+      <view class="card-meta" wx:else>
+        <text wx:if="{{item.genderText}}">{{item.genderText}}</text>
+        <text wx:if="{{item.generationText}}">{{item.generationText}}</text>
+        <text wx:if="{{item.birthText}}">{{item.birthText}}</text>
+        <text wx:if="{{item.hometownText}}">{{item.hometownText}}</text>
+      </view>
+
+      <view class="tiny" style="margin-top: 14rpx; color: #ae3b2d;" wx:if="{{item.reject_reason}}">
+        驳回原因：{{item.reject_reason}}
+      </view>
+
+      <view class="card-actions" wx:if="{{item.status === 'pending' && isAdmin}}">
+        <button class="btn btn-sm btn-primary" data-pid="{{item.id}}" bindtap="approve">同意</button>
+        <button class="btn btn-sm btn-danger" data-pid="{{item.id}}" bindtap="reject">驳回</button>
+      </view>
+      <view class="tiny muted" wx:if="{{item.status === 'pending' && !isAdmin}}" style="margin-top: 14rpx;">
+        仅管理员可审批
+      </view>
+    </view>
+  </block>
+</view>

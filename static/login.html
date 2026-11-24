@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家和万事兴 · 登录</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-body">
+  <div class="auth-card">
+    <div class="auth-seal">家</div>
+    <h1>家和万事兴</h1>
+    <p class="auth-sub">家谱 · 亲戚谱 · 多谱协作</p>
+
+    <div class="auth-tabs">
+      <button class="active" data-tab="login">登录</button>
+      <button data-tab="register">注册</button>
+    </div>
+
+    <form id="authForm" class="auth-form" novalidate>
+      <div class="field">
+        <label>用户名</label>
+        <input id="f_username" type="text" placeholder="2—32 个字符" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>密码</label>
+        <input id="f_password" type="password" placeholder="至少 6 位" autocomplete="current-password">
+      </div>
+      <div class="field hidden" id="displayNameField">
+        <label>显示名称</label>
+        <input id="f_display_name" type="text" placeholder="留空则同用户名">
+      </div>
+      <button type="submit" class="btn primary block" id="submitBtn">登录</button>
+      <p class="auth-tip" id="authTip"></p>
+    </form>
+
+    <p class="auth-default">默认管理员：<b>admin</b> / <b>admin123</b></p>
+
+    <div class="wechat-login">
+      <div class="divider"><span>或使用微信登录</span></div>
+      <div class="field">
+        <input id="f_wechat_code" type="text" placeholder="微信登录 code（未配置微信环境时任意填写，模拟登录）">
+      </div>
+      <button type="button" class="btn block" id="wechatBtn">微信登录</button>
+      <p class="auth-tip" id="wechatTip"></p>
+    </div>
+  </div>
+
+<script src="/static/js/login.js"></script>
+</body>
+</html>
